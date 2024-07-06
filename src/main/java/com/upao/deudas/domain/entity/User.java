@@ -28,6 +28,9 @@ public class User implements UserDetails {
     private String password;
     private boolean enabled = true;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<LoanDebt> loanDebts;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
