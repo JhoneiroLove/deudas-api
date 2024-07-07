@@ -10,16 +10,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/debts")
-@CrossOrigin("*")
 @RequiredArgsConstructor
 public class DebtController {
     private final DebtServiceImpl debtService;
 
     @GetMapping("/month")
-    public ResponseEntity<List<DebtResponse>> getDebtsByMonth(
-            @RequestParam("year") int year,
-            @RequestParam("month") int month) {
+    public ResponseEntity<List<DebtResponse>> getDebtsByMonth(@RequestParam int year, @RequestParam int month) {
         List<DebtResponse> debts = debtService.getDebtsByMonth(year, month);
         return ResponseEntity.ok(debts);
+    }
+
+    @PostMapping("/mark-as-paid/{debtId}")
+    public ResponseEntity<DebtResponse> markDebtAsPaid(@PathVariable Long debtId) {
+        DebtResponse updatedDebt = debtService.markDebtAsPaid(debtId);
+        return ResponseEntity.ok(updatedDebt);
+    }
+
+    @GetMapping("/alert-due-today")
+    public ResponseEntity<String> alertDueToday() {
+        boolean hasDebtsDueToday = debtService.hasDebtsDueToday();
+        if (hasDebtsDueToday) {
+            return ResponseEntity.ok("¡Tienes deudas que vencen hoy!");
+        } else {
+            return ResponseEntity.ok("No tienes deudas que vencen hoy.");
+        }
     }
 }
