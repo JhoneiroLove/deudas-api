@@ -11,9 +11,9 @@ public class InvoiceDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer quantity;
     private String product;
     private Double price;
+    private Integer quantity;
     private Double amount;
 
     @ManyToOne

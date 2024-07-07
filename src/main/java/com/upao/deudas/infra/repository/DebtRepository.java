@@ -2,9 +2,12 @@ package com.upao.deudas.infra.repository;
 
 import com.upao.deudas.domain.entity.Debt;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.List;
 
+@Repository
 public interface DebtRepository extends JpaRepository<Debt, Long> {
-    Optional<Debt> findByNumberDocument(String numeroDocumento);
+    List<Debt> findAllByDateExpirationBetween(LocalDate startDate, LocalDate endDate);
 }

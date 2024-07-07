@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/tax-debts")
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class TaxDebtController {
     private final TaxDebtServiceImpl taxDebtService;

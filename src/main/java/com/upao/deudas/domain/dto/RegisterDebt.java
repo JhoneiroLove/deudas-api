@@ -9,6 +9,7 @@ public record RegisterDebt(
     @NotBlank String numberDocument,
     @NotNull String company,
     @NotBlank Double amount,
-    @NotBlank LocalDate dateExpiration
+    @NotBlank LocalDate dateExpiration,
+    @NotBlank String color
 ) {
 }

@@ -22,4 +22,5 @@ public abstract class Debt {
     private String company;
     private Double amount;
     private LocalDate dateExpiration;
+    private boolean isPaid;
 }
