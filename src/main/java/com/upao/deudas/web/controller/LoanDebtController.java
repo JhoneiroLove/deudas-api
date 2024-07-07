@@ -5,6 +5,7 @@ import com.upao.deudas.domain.entity.LoanDebt;
 import com.upao.deudas.service.impl.LoanDebtServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,8 @@ public class LoanDebtController {
     private final LoanDebtServiceImpl loanDebtService;
 
     @PostMapping("/register")
-    public ResponseEntity<LoanDebt> registerLoanDebt(@RequestBody @Valid RegisterLoanDebt registerLoanDebt, @RequestParam Long userId) {
-        LoanDebt nuevaDeuda = loanDebtService.registerLoanDebt(registerLoanDebt, userId);
+    public ResponseEntity<LoanDebt> registerLoanDebt(@RequestBody @Valid RegisterLoanDebt registerLoanDebt, @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+        LoanDebt nuevaDeuda = loanDebtService.registerLoanDebt(registerLoanDebt, authHeader.substring(7));
         return ResponseEntity.ok(nuevaDeuda);
     }
 }
