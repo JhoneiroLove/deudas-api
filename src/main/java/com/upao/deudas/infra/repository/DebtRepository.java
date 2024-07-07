@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface DebtRepository extends JpaRepository<Debt, Long> {
     List<Debt> findAllByDateExpirationBetween(LocalDate startDate, LocalDate endDate);
-    boolean existsByDateExpiration(LocalDate date);
+    List<Debt> findAllByDateExpiration(LocalDate date);
 }

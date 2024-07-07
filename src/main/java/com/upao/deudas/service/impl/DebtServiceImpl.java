@@ -1,5 +1,6 @@
 package com.upao.deudas.service.impl;
 
+import com.upao.deudas.domain.dto.AlertDueTodayResponse;
 import com.upao.deudas.domain.dto.DebtResponse;
 import com.upao.deudas.domain.entity.Debt;
 import com.upao.deudas.infra.repository.DebtRepository;
@@ -67,8 +68,23 @@ public class DebtServiceImpl implements DebtService {
     }
 
     @Override
-    public boolean hasDebtsDueToday() {
+    public AlertDueTodayResponse getDebtsDueToday() {
         LocalDate today = LocalDate.now();
-        return debtRepository.existsByDateExpiration(today);
+        List<Debt> debtsDueToday = debtRepository.findAllByDateExpiration(today);
+        List<DebtResponse> debtResponses = new ArrayList<>();
+
+        for (Debt debt : debtsDueToday) {
+            DebtResponse debtResponse = new DebtResponse(
+                    debt.getNumberDocument(),
+                    debt.getCompany(),
+                    debt.getAmount(),
+                    debt.getDateExpiration(),
+                    "red"
+            );
+            debtResponses.add(debtResponse);
+        }
+
+        String message = debtResponses.isEmpty() ? "No tienes deudas que vencen hoy" : "!Tienes deudas que vencen hoy!";
+        return new AlertDueTodayResponse(message, debtResponses);
     }
 }

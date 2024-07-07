@@ -1,5 +1,6 @@
 package com.upao.deudas.web.controller;
 
+import com.upao.deudas.domain.dto.AlertDueTodayResponse;
 import com.upao.deudas.domain.dto.DebtResponse;
 import com.upao.deudas.service.impl.DebtServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +28,8 @@ public class DebtController {
     }
 
     @GetMapping("/alert-due-today")
-    public ResponseEntity<String> alertDueToday() {
-        boolean hasDebtsDueToday = debtService.hasDebtsDueToday();
-        if (hasDebtsDueToday) {
-            return ResponseEntity.ok("¡Tienes deudas que vencen hoy!");
-        } else {
-            return ResponseEntity.ok("No tienes deudas que vencen hoy.");
-        }
+    public ResponseEntity<AlertDueTodayResponse> alertDueToday() {
+        AlertDueTodayResponse alertResponse = debtService.getDebtsDueToday();
+        return ResponseEntity.ok(alertResponse);
     }
 }

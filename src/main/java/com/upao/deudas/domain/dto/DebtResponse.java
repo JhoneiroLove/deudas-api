@@ -1,12 +1,15 @@
 package com.upao.deudas.domain.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 public record DebtResponse(
-        String numberDocument,
-        String company,
-        Double amount,
-        LocalDate dateExpiration,
-        String color
+        @NotBlank String numberDocument,
+        @NotNull String company,
+        @NotBlank Double amount,
+        @NotBlank LocalDate dateExpiration,
+        @NotBlank String color
 ) {
 }
