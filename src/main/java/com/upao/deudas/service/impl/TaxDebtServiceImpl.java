@@ -1,24 +1,20 @@
 package com.upao.deudas.service.impl;
 
-import com.upao.deudas.domain.dto.RegisterCollectionDetail;
 import com.upao.deudas.domain.dto.RegisterTaxDebt;
-import com.upao.deudas.domain.entity.CollectionDetail;
 import com.upao.deudas.domain.entity.TaxDebt;
 import com.upao.deudas.domain.entity.User;
 import com.upao.deudas.infra.repository.TaxDebtRepository;
 import com.upao.deudas.infra.repository.UserRepository;
 import com.upao.deudas.infra.security.JwtService;
+import com.upao.deudas.service.TaxtDebtService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
-public class TaxDebtServiceImpl {
+public class TaxDebtServiceImpl implements TaxtDebtService {
     private final TaxDebtRepository taxDebtRepository;
     private final UserRepository userRepository;
     private final JwtService jwtService;
@@ -35,32 +31,10 @@ public class TaxDebtServiceImpl {
         taxDebt.setAmount(registerTaxDebt.amount());
         taxDebt.setDateExpiration(registerTaxDebt.dateExpiration());
         taxDebt.setPeriod(registerTaxDebt.period());
-        taxDebt.setInterestRate(registerTaxDebt.interestRate());
+        taxDebt.setName(registerTaxDebt.name());
+        taxDebt.setAddress(registerTaxDebt.address());
         taxDebt.setUser(user);
 
-        List<RegisterCollectionDetail> collectionDetailsDto = calculateCollectionDetails(registerTaxDebt.amount());
-        List<CollectionDetail> collectionDetails = new ArrayList<>();
-
-        for (RegisterCollectionDetail detailDTO : collectionDetailsDto) {
-            CollectionDetail detail = new CollectionDetail();
-            detail.setDescription(detailDTO.description());
-            detail.setAmount(detailDTO.amount());
-            detail.setTaxDebt(taxDebt);
-            collectionDetails.add(detail);
-        }
-
-        taxDebt.setTaxDetails(collectionDetails);
-
         return taxDebtRepository.save(taxDebt);
-    }
-
-    private List<RegisterCollectionDetail> calculateCollectionDetails(double totalAmount) {
-        List<RegisterCollectionDetail> details = new ArrayList<>();
-        details.add(new RegisterCollectionDetail("property tax", totalAmount * 0.375));
-        details.add(new RegisterCollectionDetail("public cleaning", totalAmount * 0.018));
-        details.add(new RegisterCollectionDetail("green areas", totalAmount * 0.418));
-        details.add(new RegisterCollectionDetail("public safety", totalAmount * 0.175));
-        details.add(new RegisterCollectionDetail("tax forms", totalAmount * 0.013));
-        return details;
     }
 }

@@ -7,14 +7,16 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class CollectionDetail {
+public class InvoiceDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String description;
-    private double amount;
+    private Integer quantity;
+    private String product;
+    private Double price;
+    private Double amount;
 
     @ManyToOne
-    @JoinColumn(name = "tax_debt_id")
-    private TaxDebt taxDebt;
+    @JoinColumn(name = "invoice_debt_id")
+    private InvoiceDebt invoiceDebt;
 }

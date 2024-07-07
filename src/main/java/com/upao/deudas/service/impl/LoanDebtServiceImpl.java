@@ -7,6 +7,7 @@ import com.upao.deudas.domain.entity.User;
 import com.upao.deudas.infra.repository.LoanDebtRepository;
 import com.upao.deudas.infra.repository.UserRepository;
 import com.upao.deudas.infra.security.JwtService;
+import com.upao.deudas.service.LoanDebtService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,12 +19,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class LoanDebtServiceImpl {
+public class LoanDebtServiceImpl implements LoanDebtService {
     private final LoanDebtRepository loanDebtRepository;
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
     @Transactional
+    @Override
     public LoanDebt registerLoanDebt(RegisterLoanDebt registerLoanDebt, String token) {
         String email = jwtService.getCorreoFromToken(token);
         User user = userRepository.findByEmail(email)

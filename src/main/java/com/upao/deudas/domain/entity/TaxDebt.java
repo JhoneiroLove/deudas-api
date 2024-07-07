@@ -11,10 +11,8 @@ import java.util.List;
 @Setter
 public class TaxDebt extends Debt {
     private String period;
-    private Double interestRate;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taxDebt")
-    private List<CollectionDetail> taxDetails;
+    private String name;
+    private String address;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
