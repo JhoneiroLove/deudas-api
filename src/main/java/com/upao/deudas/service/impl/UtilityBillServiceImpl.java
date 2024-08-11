@@ -26,6 +26,11 @@ public class UtilityBillServiceImpl implements UtilityBillService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con email: " + email));
 
+        boolean exists = utilityBillRepository.existsByNumberDocumentAndUser(registerUtilityBill.numberDocument(), user);
+        if (exists) {
+            throw new IllegalArgumentException("Ya existe una deuda con este número de documento para este usuario.");
+        }
+
         UtilityBill utilityBill = new UtilityBill();
         utilityBill.setNumberDocument(registerUtilityBill.numberDocument());
         utilityBill.setCompany(registerUtilityBill.company());

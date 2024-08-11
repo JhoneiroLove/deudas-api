@@ -31,6 +31,11 @@ public class InvoiceDebtServiceImpl implements InvoiceDebtService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con email: " + email));
 
+        boolean exists = invoiceDebtRepository.existsByNumberDocumentAndUser(registerInvoiceDebt.numberDocument(), user);
+        if (exists) {
+            throw new IllegalArgumentException("Ya existe una deuda con este número de documento para este usuario.");
+        }
+
         InvoiceDebt invoiceDebt = new InvoiceDebt();
         invoiceDebt.setNumberDocument(registerInvoiceDebt.numberDocument());
         invoiceDebt.setCompany(registerInvoiceDebt.company());

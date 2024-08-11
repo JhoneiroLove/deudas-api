@@ -10,8 +10,4 @@ import lombok.Setter;
 public class UtilityBill extends Debt {
     private String clientName;
     private String clientAddress;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 }

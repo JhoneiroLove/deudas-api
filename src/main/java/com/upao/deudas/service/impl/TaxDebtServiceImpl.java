@@ -25,6 +25,11 @@ public class TaxDebtServiceImpl implements TaxtDebtService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con email: " + email));
 
+        boolean exists = taxDebtRepository.existsByNumberDocumentAndUser(registerTaxDebt.numberDocument(), user);
+        if (exists) {
+            throw new IllegalArgumentException("Ya existe una deuda con este número de documento para este usuario.");
+        }
+
         TaxDebt taxDebt = new TaxDebt();
         taxDebt.setNumberDocument(registerTaxDebt.numberDocument());
         taxDebt.setCompany(registerTaxDebt.company());

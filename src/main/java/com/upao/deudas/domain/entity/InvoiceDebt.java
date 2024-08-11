@@ -18,8 +18,4 @@ public class InvoiceDebt extends Debt {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "invoiceDebt")
     private List<InvoiceDetail> invoiceDetails;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 }

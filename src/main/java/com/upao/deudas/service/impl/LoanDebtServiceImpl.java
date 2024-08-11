@@ -31,6 +31,11 @@ public class LoanDebtServiceImpl implements LoanDebtService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con email: " + email));
 
+        boolean exists = loanDebtRepository.existsByNumberDocumentAndUser(registerLoanDebt.numberDocument(), user);
+        if (exists) {
+            throw new IllegalArgumentException("Ya existe una deuda con este número de documento para este usuario.");
+        }
+
         LoanDebt loanDebt = new LoanDebt();
         loanDebt.setNumberDocument(registerLoanDebt.numberDocument());
         loanDebt.setCompany(registerLoanDebt.company());
